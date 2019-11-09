@@ -1,16 +1,32 @@
 # frozen_string_literal: true
 
-require 'bundler/setup'
+require "coveralls"
+require "simplecov"
+
+SimpleCov.start do
+  add_filter "lib/practice_terraforming.rb"
+  add_filter "lib/practice_terraforming/version.rb"
+
+  formatter SimpleCov::Formatter::MultiFormatter.new([
+                                                       Coveralls::SimpleCov::Formatter,
+                                                       SimpleCov::Formatter::HTMLFormatter,
+                                                     ])
+end
+
+$LOAD_PATH.unshift File.expand_path('../lib', __dir__)
 require 'practice_terraforming'
 
-RSpec.configure do |config|
-  # Enable flags like --only-failures and --next-failure
-  config.example_status_persistence_file_path = '.rspec_status'
+require 'tempfile'
+require 'time'
 
-  # Disable RSpec exposing methods globally on `Module` and `main`
-  config.disable_monkey_patching!
+def fixture_path(fixture_name)
+  File.join(File.dirname(__FILE__), "fixtures", fixture_name)
+end
 
-  config.expect_with :rspec do |c|
-    c.syntax = :expect
-  end
+def tfstate_fixture_path
+  fixture_path("terraform.tfstate")
+end
+
+def tfstate_fixture
+  JSON.parse(open(tfstate_fixture_path).read)
 end

@@ -33,6 +33,14 @@ Style/HashSyntax:
   Exclude:
     - 'Rakefile'
 
+# TODO: check again
+Style/IndentArray:
+  Enabled: false
+
+# TODO: check again
+Style/IndentHash:
+  Enabled: false
+
 Style/LineEndConcatenation:
   Enabled: false
 
@@ -73,4 +81,13 @@ Style/CollectionMethods:
     find_all: "select"
 
 Style/PerlBackrefs:
+  Enabled: false
+
+Security/Open:
+  Enabled: false
+
+Metrics/BlockLength:
+  Enabled: false
+
+Naming/HeredocDelimiterNaming:
   Enabled: false

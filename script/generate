@@ -1,0 +1,96 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "erb"
+
+USAGE = <<~EOS
+  Usage: script/generate RESOURCE
+  RESOURCE must be snake_case
+
+  Example:
+    script/generate EC2
+EOS
+
+def camelize(string)
+  string
+    .sub(/^[a-z\d]*/) { |match| match.capitalize }
+    .gsub(%r{(?:_|(/))([a-z\d]*)}i) { "#{$1}#{$2.capitalize}" }
+    .gsub('/', '::')
+end
+
+def generate_resource_erb(resource)
+  template = File.join("templates", "resource.erb.erb")
+  ERB.new(open(template).read, nil, "-").result(binding)
+end
+
+def generate_resource_rb(resource)
+  template = File.expand_path(File.join("templates", "resource.rb.erb"))
+  ERB.new(open(template).read, nil, "-").result(binding)
+end
+
+def generate_resource_spec_rb(resource)
+  template = File.join("templates", "resource_spec.rb.erb")
+  ERB.new(open(template).read, nil, "-").result(binding)
+end
+
+def humanize(string)
+  string
+    .sub(/\A_+/, '')
+    .sub(/_id\z/, '')
+    .tr('_', ' ')
+    .gsub(/([a-z\d]*)/i) { |match| match.downcase }
+    .split(" ")
+    .map { |w| w[0].upcase + w[1..-1] }
+    .join(" ")
+end
+
+if ARGV.length != 1
+  warn USAGE
+  exit 1
+end
+
+resource = ARGV[0]
+
+puts "==> Generate #{resource}.rb"
+resource_rb = generate_resource_rb(resource)
+File.open(File.join("lib", "practice_terraforming", "resource", "#{resource}.rb"), "w+") { |f| f.write(resource_rb) }
+
+puts "==> Generate #{resource}_spec.rb"
+resource_spec_rb = generate_resource_spec_rb(resource)
+File.open(File.join("spec", "lib", "practice_terraforming", "resource", "#{resource}_spec.rb"), "w+") { |f| f.write(resource_spec_rb) }
+
+puts "==> Generate #{resource}.erb"
+resource_erb = generate_resource_erb(resource)
+File.open(File.join("lib", "practice_terraforming", "template", "tf", "#{resource}.erb"), "w+") { |f| f.write(resource_erb) }
+
+puts <<~EOS
+
+  Add below code by hand.
+
+  lib/practice_terraforming.rb:
+
+      require "practice_terraforming/resource/#{resource}"
+
+  lib/practice_terraforming/cli.rb:
+
+      module PracticeTerraforming
+        class CLI < Thor
+
+          # Subcommand name should be acronym.
+          desc "#{resource}", "#{humanize(resource)}"
+          def #{resource}
+            execute(PracticeTerraforming::Resource::#{camelize(resource)}, options)
+          end
+
+  spec/lib/practice_terraforming/cli_spec.rb:
+
+      module PracticeTerraforming
+        describe CLI do
+          context "resources" do
+          describe "#{resource}" do
+            let(:klass)   { PracticeTerraforming::Resource::#{camelize(resource)} }
+            let(:command) { :#{resource} }
+
+            it_behaves_like "CLI examples"
+          end
+EOS
