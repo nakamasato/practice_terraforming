@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/nakamasato/practice_terraforming.svg?style=svg&circle-token=c3fbff2dec3543a4fce9fd86907f3b6cc9bdfeba)](https://circleci.com/gh/nakamasato/practice_terraforming)
+
 # PracticeTerraforming
 
 Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/practice_terraforming`. To experiment with that code, run `bin/console` for an interactive prompt.
