@@ -57,7 +57,6 @@ module PracticeTerraforming
                 role       = "hoge_role"
             }
 
-
           EOS
         end
       end
