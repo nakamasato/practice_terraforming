@@ -26,7 +26,7 @@ module PracticeTerraforming
           attributes = {
             "id" => role_policy_attachment[:name],
             "policy_arn" => role_policy_attachment[:policy_arn],
-            "role" => role_policy_attachment[:role],
+            "role" => role_policy_attachment[:role]
           }
           resources["aws_iam_role_policy_attachment.#{module_name_of(role_policy_attachment)}"] = {
             "type" => "aws_iam_role_policy_attachment",
