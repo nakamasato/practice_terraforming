@@ -23,6 +23,11 @@ module PracticeTerraforming
       execute(PracticeTerraforming::Resource::S3, options)
     end
 
+    desc "iampa", "Iam Policy Attachment"
+    def iampa
+      execute(PracticeTerraforming::Resource::IamPolicyAttachment, options)
+    end
+
     private
 
     def configure_aws(options)

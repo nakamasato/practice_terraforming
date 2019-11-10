@@ -58,6 +58,13 @@ module PracticeTerraforming
 
         it_behaves_like "CLI examples"
       end
+
+      describe "iampa" do
+        let(:klass)   { PracticeTerraforming::Resource::IamPolicyAttachment }
+        let(:command) { :iampa }
+
+        it_behaves_like "CLI examples"
+      end
     end
 
     context "flush to stdout" do
