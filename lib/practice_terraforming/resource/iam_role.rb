@@ -29,6 +29,7 @@ module PracticeTerraforming
               prettify_policy(role.assume_role_policy_document, breakline: true, unescape: true),
             "id" => role.role_name,
             "name" => role.role_name,
+            "description" => role.description,
             "path" => role.path,
             "unique_id" => role.role_id
           }
