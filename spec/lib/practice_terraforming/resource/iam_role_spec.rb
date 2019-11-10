@@ -14,6 +14,7 @@ module PracticeTerraforming
           {
             path: "/",
             role_name: "hoge_role",
+            description: "hoge_role_description",
             role_id: "ABCDEFGHIJKLMN1234567",
             arn: "arn:aws:iam::123456789012:role/hoge_role",
             create_date: Time.parse("2015-04-01 12:34:56 UTC"),
@@ -22,6 +23,7 @@ module PracticeTerraforming
           {
             path: "/system/",
             role_name: "fuga_role",
+            description: "fuga_role_description",
             role_id: "OPQRSTUVWXYZA8901234",
             arn: "arn:aws:iam::345678901234:role/fuga_role",
             create_date: Time.parse("2015-05-01 12:34:56 UTC"),
@@ -39,6 +41,7 @@ module PracticeTerraforming
           expect(described_class.tf(client: client)).to eq <<~EOS
             resource "aws_iam_role" "hoge_role" {
                 name               = "hoge_role"
+                description        = "hoge_role_description"
                 path               = "/"
                 assume_role_policy = <<POLICY
             {
@@ -59,6 +62,7 @@ module PracticeTerraforming
 
             resource "aws_iam_role" "fuga_role" {
                 name               = "fuga_role"
+                description        = "fuga_role_description"
                 path               = "/system/"
                 assume_role_policy = <<POLICY
             {
@@ -93,6 +97,7 @@ module PracticeTerraforming
                                                                         "assume_role_policy" => "{\n  \"Version\": \"2008-10-17\",\n  \"Statement\": [\n    {\n      \"Sid\": \"\",\n      \"Effect\": \"Allow\",\n      \"Principal\": {\n        \"Service\": \"ec2.amazonaws.com\"\n      },\n      \"Action\": \"sts:AssumeRole\"\n    }\n  ]\n}\n",
                                                                         "id" => "hoge_role",
                                                                         "name" => "hoge_role",
+                                                                        "description" => "hoge_role_description",
                                                                         "path" => "/",
                                                                         "unique_id" => "ABCDEFGHIJKLMN1234567"
                                                                       }
@@ -107,6 +112,7 @@ module PracticeTerraforming
                                                                         "assume_role_policy" => "{\n  \"Version\": \"2008-10-17\",\n  \"Statement\": [\n    {\n      \"Sid\": \"1\",\n      \"Effect\": \"Allow\",\n      \"Principal\": {\n        \"Service\": \"elastictranscoder.amazonaws.com\"\n      },\n      \"Action\": \"sts:AssumeRole\"\n    }\n  ]\n}\n",
                                                                         "id" => "fuga_role",
                                                                         "name" => "fuga_role",
+                                                                        "description" => "fuga_role_description",
                                                                         "path" => "/system/",
                                                                         "unique_id" => "OPQRSTUVWXYZA8901234"
                                                                       }
