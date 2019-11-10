@@ -65,6 +65,13 @@ module PracticeTerraforming
 
         it_behaves_like "CLI examples"
       end
+
+      describe "iamrpa" do
+        let(:klass)   { PracticeTerraforming::Resource::IamRolePolicyAttachment }
+        let(:command) { :iamrpa }
+
+        it_behaves_like "CLI examples"
+      end
     end
 
     context "flush to stdout" do

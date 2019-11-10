@@ -28,6 +28,11 @@ module PracticeTerraforming
       execute(PracticeTerraforming::Resource::IamPolicyAttachment, options)
     end
 
+    desc "iamrpa", "Iam Role Policy Attachment"
+    def iamrpa
+      execute(PracticeTerraforming::Resource::IamRolePolicyAttachment, options)
+    end
+
     private
 
     def configure_aws(options)
