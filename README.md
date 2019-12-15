@@ -6,7 +6,7 @@ This is just for practice!
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Add this line to your application's Gemfile (https://rubygems.org/gems/practice_terraforming):
 
 ```ruby
 gem 'practice_terraforming'
@@ -32,7 +32,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/practice_terraforming. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/nakamasato/practice_terraforming. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 ## License
 
@@ -40,7 +40,7 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Code of Conduct
 
-Everyone interacting in the PracticeTerraforming project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/practice_terraforming/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the PracticeTerraforming project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/nakamasato/practice_terraforming/blob/master/CODE_OF_CONDUCT.md).
 
 # How I created this
 
@@ -245,7 +245,9 @@ Done installing documentation for practice_terraforming after 0 seconds
 practice_terraforming
 Commands:
   practice_terraforming help [COMMAND]  # Describe available commands or one specific command
+  practice_terraforming iampa           # Iam Policy Attachment
   practice_terraforming iamr            # Iam Role
+  practice_terraforming iamrpa          # Iam Role Policy Attachment
   practice_terraforming s3              # S3
 
 Options:
