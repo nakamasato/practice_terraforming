@@ -1,0 +1,7 @@
+<% iam_group_policy_attachments.each do |group_policy_attachment| -%>
+resource "aws_iam_group_policy_attachment" "<%= module_name_of(group_policy_attachment) %>" {
+    policy_arn = "<%= group_policy_attachment[:policy_arn] %>"
+    group       = "<%= group_policy_attachment[:group] %>"
+}
+
+<% end -%>

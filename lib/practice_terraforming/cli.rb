@@ -38,6 +38,11 @@ module PracticeTerraforming
       execute(PracticeTerraforming::Resource::IAMUserPolicyAttachment, options)
     end
 
+    desc "iamgpa", "Iam Group Policy Attachment"
+    def iamgpa
+      execute(PracticeTerraforming::Resource::IAMGroupPolicyAttachment, options)
+    end
+
     private
 
     def configure_aws(options)
