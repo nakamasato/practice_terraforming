@@ -2,7 +2,9 @@
 
 # PracticeTerraforming
 
-This is just for practice!
+## Description
+
+This is just for practice! There's not `IAMRolePolicyAttachment`, `IAMUserPolicyAttachment` and `IAMGroupPolicyAttachment` in the original repo. So, I implemented them and also sent pull requests. This repo is used to check before sending those pull requests.
 
 ## Installation
 
@@ -104,46 +106,46 @@ Wrote dependencies with `spec.add_dependency` and `spec.add_development_dependen
 
 ## Create Resource
 
-0. generate templates with `script/generate`
+`. generate templates with `script/generate`
 
-```
-script/generate iam_policy_attachment
-==> Generate iam_policy_attachment.rb
-==> Generate iam_policy_attachment_spec.rb
-==> Generate iam_policy_attachment.erb
+    ```
+    script/generate iam_policy_attachment
+    ==> Generate iam_policy_attachment.rb
+    ==> Generate iam_policy_attachment_spec.rb
+    ==> Generate iam_policy_attachment.erb
 
-Add below code by hand.
+    Add below code by hand.
 
-lib/practice_terraforming.rb:
+    lib/practice_terraforming.rb:
 
-    require "practice_terraforming/resource/iam_policy_attachment"
+        require "practice_terraforming/resource/iam_policy_attachment"
 
-lib/practice_terraforming/cli.rb:
+    lib/practice_terraforming/cli.rb:
 
-    module PracticeTerraforming
-      class CLI < Thor
+        module PracticeTerraforming
+          class CLI < Thor
 
-        # Subcommand name should be acronym.
-        desc "iam_policy_attachment", "Iam Policy Attachment"
-        def iam_policy_attachment
-          execute(PracticeTerraforming::Resource::IamPolicyAttachment, options)
-        end
+            # Subcommand name should be acronym.
+            desc "iam_policy_attachment", "Iam Policy Attachment"
+            def iam_policy_attachment
+              execute(PracticeTerraforming::Resource::IamPolicyAttachment, options)
+            end
 
-spec/lib/practice_terraforming/cli_spec.rb:
+    spec/lib/practice_terraforming/cli_spec.rb:
 
-    module PracticeTerraforming
-      describe CLI do
-        context "resources" do
-        describe "iam_policy_attachment" do
-          let(:klass)   { PracticeTerraforming::Resource::IamPolicyAttachment }
-          let(:command) { :iam_policy_attachment }
+        module PracticeTerraforming
+          describe CLI do
+            context "resources" do
+            describe "iam_policy_attachment" do
+              let(:klass)   { PracticeTerraforming::Resource::IamPolicyAttachment }
+              let(:command) { :iam_policy_attachment }
 
-          it_behaves_like "CLI examples"
-        end
-```
+              it_behaves_like "CLI examples"
+            end
+    ```
 
 1. As the message says, add those codes.
-2. `lib/practice_terraforming/resource/iam_policy_attachment.rb`: Change Aws client and write logic in `tfstate` method
+1. `lib/practice_terraforming/resource/iam_policy_attachment.rb`: Change Aws client and write logic in `tfstate` method
 
     Use aws-sdk-<resource> to get the input data and write the logic to generate tf/tfstate file.
     1. tf -> only need to update the template file, which appears in the next step
@@ -153,7 +155,7 @@ spec/lib/practice_terraforming/cli_spec.rb:
       - <api method name, e.g. entities_for_policy> -> get the resource info with aws-sdk
       - other -> make a list of resources to be used in `tfstate` method
 
-3. `lib/practice_terraforming/template/tf/iam_policy_attachment.erb`: Update the erb based on the corresponding terraform resource.
+1. `lib/practice_terraforming/template/tf/iam_policy_attachment.erb`: Update the erb based on the corresponding terraform resource.
 
     ```
     <% iam_policy_attachments.each do |policy_attachment| -%>
@@ -168,53 +170,53 @@ spec/lib/practice_terraforming/cli_spec.rb:
     <% end -%>
     ```
 
-4. `spec/lib/practice_terraforming/resource/iam_policy_attachment_spec.rb`: Change Aws client and write test for tf and tfstate
+1. `spec/lib/practice_terraforming/resource/iam_policy_attachment_spec.rb`: Change Aws client and write test for tf and tfstate
 
     Test Perspective:
     1. Create aws sdk result using stub.
     2. Use the module to generate tf/tfstate.
     3. Compare expected one and generated one.
-    ```
-    irb(main):007:0> client.list_policies.policies[0]
-    => #<struct Aws::IAM::Types::Policy policy_name="test-policy", policy_id="ABCDEFG", arn="arn:aws:iam::123456789:policy/test-policy", path="/", default_version_id="v1", attachment_count=1, permissions_boundary_usage_count=0, is_attachable=true, description=nil, create_date=2019-01-01 00:00:00 UTC, update_date=2019-01-02 00:00:00 UTC>
-client.list_entities_for_policy(policy_arn: "arn:aws:iam::351540792571:policy/ai-suggest-batch-user-policy")
-    irb(main):008:0> client.list_entities_for_policy(policy_arn: "arn:aws:iam::123456789:policy/test-policy")
-    => #<struct Aws::IAM::Types::ListEntitiesForPolicyResponse policy_groups=[#<struct Aws::IAM::Types::PolicyGroup group_name="test-group", group_id="ABCDEFG">], policy_users=[], policy_roles=[], is_truncated=false, marker=nil>
-    ```
 
-    ```
-    let(:policies) do
-       [
+        ```
+        irb(main):007:0> client.list_policies.policies[0]
+        => #<struct Aws::IAM::Types::Policy policy_name="test-policy", policy_id="ABCDEFG", arn="arn:aws:iam::123456789:policy/test-policy", path="/", default_version_id="v1", attachment_count=1, permissions_boundary_usage_count=0, is_attachable=true, description=nil, create_date=2019-01-01 00:00:00 UTC, update_date=2019-01-02 00:00:00 UTC>
+        irb(main):008:0> client.list_entities_for_policy(policy_arn: "arn:aws:iam::123456789:policy/test-policy")
+        => #<struct Aws::IAM::Types::ListEntitiesForPolicyResponse policy_groups=[#<struct Aws::IAM::Types::PolicyGroup group_name="test-group", group_id="ABCDEFG">], policy_users=[], policy_roles=[], is_truncated=false, marker=nil>
+        ```
+
+        ```
+        let(:policies) do
+           [
+              {
+                policy_name: "test-policy",
+                policy_id: "ABCDEFG",
+                arn: "arn:aws:iam::123456789:policy/test-policy",
+                path: "/",
+                default_version_id: "v1",
+                attachment_count: 1,
+                is_attachable: true,
+                create_date: Time.parse("2019-01-01 00:00:00 UTC"),
+                update_date: Time.parse("2019-01-02 00:00:00 UTC"),
+                description: nil,
+              }
+            ]
+        end
+
+        let(:entities_for_policy) do
           {
-            policy_name: "test-policy",
-            policy_id: "ABCDEFG",
-            arn: "arn:aws:iam::123456789:policy/test-policy",
-            path: "/",
-            default_version_id: "v1",
-            attachment_count: 1,
-            is_attachable: true,
-            create_date: Time.parse("2019-01-01 00:00:00 UTC"),
-            update_date: Time.parse("2019-01-02 00:00:00 UTC"),
-            description: nil,
-          }
-        ]
-    end
+            policy_groups: [
+              { group_name: "test-group",  group_id: "ABCDEFG" },
+            ],
+            policy_users: [],
+            policy_roles: [],
+         }
+        end
 
-    let(:entities_for_policy) do
-      {
-        policy_groups: [
-          { group_name: "test-group",  group_id: "ABCDEFG" },
-        ],
-        policy_users: [],
-        policy_roles: [],
-      }
-    end
-
-    before do
-      client.stub_responses(:list_policies, policies: policies)
-      client.stub_responses(:list_entities_for_policy, [entities_for_policy])
-    end
-    ```
+        before do
+          client.stub_responses(:list_policies, policies: policies)
+          client.stub_responses(:list_entities_for_policy, [entities_for_policy])
+        end
+        ```
 
 ## Install on local
 
@@ -248,6 +250,7 @@ Commands:
   practice_terraforming iampa           # Iam Policy Attachment
   practice_terraforming iamr            # Iam Role
   practice_terraforming iamrpa          # Iam Role Policy Attachment
+  practice_terraforming iamupa          # Iam User Policy Attachment
   practice_terraforming s3              # S3
 
 Options:
@@ -259,3 +262,11 @@ Options:
   [--assume=ASSUME]                              # Role ARN to assume
   [--use-bundled-cert], [--no-use-bundled-cert]  # Use the bundled CA certificate from AWS SDK
 ```
+
+## Table for aws-sdk and terraforming
+
+|terraforming resource|aws-sdk|
+|---|---|
+|IAMRolePolicyAttachment|`list_roles` and `list_attached_role_policies` for all extracted roles |
+|IAMGroupPolicyAttachment|`list_users` and `list_attached_user_policies` for all extracted users|
+|IAMGroupPolicyAttachment|`list_groups` and `list_attached_group_policies` for all extracted groups|

@@ -33,6 +33,11 @@ module PracticeTerraforming
       execute(PracticeTerraforming::Resource::IamRolePolicyAttachment, options)
     end
 
+    desc "iamupa", "Iam User Policy Attachment"
+    def iamupa
+      execute(PracticeTerraforming::Resource::IAMUserPolicyAttachment, options)
+    end
+
     private
 
     def configure_aws(options)
