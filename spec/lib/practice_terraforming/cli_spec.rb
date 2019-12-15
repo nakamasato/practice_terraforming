@@ -79,6 +79,13 @@ module PracticeTerraforming
 
         it_behaves_like "CLI examples"
       end
+
+      describe "iamgpa" do
+        let(:klass)   { PracticeTerraforming::Resource::IAMGroupPolicyAttachment }
+        let(:command) { :iamgpa }
+
+        it_behaves_like "CLI examples"
+      end
     end
 
     context "flush to stdout" do

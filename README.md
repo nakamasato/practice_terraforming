@@ -106,7 +106,7 @@ Wrote dependencies with `spec.add_dependency` and `spec.add_development_dependen
 
 ## Create Resource
 
-`. generate templates with `script/generate`
+1. generate templates with `script/generate`
 
     ```
     script/generate iam_policy_attachment
@@ -145,9 +145,53 @@ Wrote dependencies with `spec.add_dependency` and `spec.add_development_dependen
     ```
 
 1. As the message says, add those codes.
+
+    Need to chagnge a little bit
+
+    lib/practice_terraforming/cli.rb:
+
+    ```diff
+    -    desc "iam_policy_attachment", "Iam Policy Attachment"
+    -    def iam_policy_attachment
+    -      execute(PracticeTerraforming::Resource::IamPolicyAttachment, options)
+    +    desc "iampa", "Iam Policy Attachment"
+    +    def iampa
+    +      execute(PracticeTerraforming::Resource::IAMPolicyAttachment, options)
+    ```
+
+    spec/lib/practice_terraforming/cli_spec.rb:
+
+
+    ```diff
+    -    describe "iam_policy_attachment" do
+    -      let(:klass)   { PracticeTerraforming::Resource::IamPolicyAttachment }
+    -      let(:command) { :iam_policy_attachment }
+    +    describe "iampa" do
+    +      let(:klass)   { PracticeTerraforming::Resource::IAMPolicyAttachment }
+    +      let(:command) { :iampa }
+    ```
+
 1. `lib/practice_terraforming/resource/iam_policy_attachment.rb`: Change Aws client and write logic in `tfstate` method
 
-    Use aws-sdk-<resource> to get the input data and write the logic to generate tf/tfstate file.
+    Use aws-sdk-<resource> to get the input data
+
+    ```diff
+           # TODO: Select appropriate Client class from here:
+           # http://docs.aws.amazon.com/sdkforruby/api/index.html
+    -      def self.tf(client: Aws::SomeResource::Client.new)
+    +      def self.tf(client: Aws::IAM::Client.new)
+             self.new(client).tf
+           end
+
+           # TODO: Select appropriate Client class from here:
+           # http://docs.aws.amazon.com/sdkforruby/api/index.html
+    -      def self.tfstate(client: Aws::SomeResource::Client.new)
+    +      def self.tfstate(client: Aws::IAM::Client.new)
+             self.new(client).tfstate
+           end
+    ```
+
+    write the logic to generate tf/tfstate file.
     1. tf -> only need to update the template file, which appears in the next step
     2. tfstate -> get resource list using private method, format them into resources and return them
     3. As for private methods:
@@ -172,19 +216,36 @@ Wrote dependencies with `spec.add_dependency` and `spec.add_development_dependen
 
 1. `spec/lib/practice_terraforming/resource/iam_policy_attachment_spec.rb`: Change Aws client and write test for tf and tfstate
 
+    Change Aws client
+
+    ```diff
+     module PracticeTerraforming
+       module Resource
+    -    describe IamPolicyAttachment do
+    +    describe IAMPolicyAttachment do
+           let(:client) do
+             # TODO: Select appropriate Client class from here:
+             # http://docs.aws.amazon.com/sdkforruby/api/index.html
+    -        Aws::SomeResource::Client.new(stub_responses: true)
+    +        Aws::IAM::Client.new(stub_responses: true)
+           end
+
+           describe ".tf" do
+    ```
+
     Test Perspective:
     1. Create aws sdk result using stub.
     2. Use the module to generate tf/tfstate.
     3. Compare expected one and generated one.
 
-        ```
+        ```ruby
         irb(main):007:0> client.list_policies.policies[0]
         => #<struct Aws::IAM::Types::Policy policy_name="test-policy", policy_id="ABCDEFG", arn="arn:aws:iam::123456789:policy/test-policy", path="/", default_version_id="v1", attachment_count=1, permissions_boundary_usage_count=0, is_attachable=true, description=nil, create_date=2019-01-01 00:00:00 UTC, update_date=2019-01-02 00:00:00 UTC>
         irb(main):008:0> client.list_entities_for_policy(policy_arn: "arn:aws:iam::123456789:policy/test-policy")
         => #<struct Aws::IAM::Types::ListEntitiesForPolicyResponse policy_groups=[#<struct Aws::IAM::Types::PolicyGroup group_name="test-group", group_id="ABCDEFG">], policy_users=[], policy_roles=[], is_truncated=false, marker=nil>
         ```
 
-        ```
+        ```ruby
         let(:policies) do
            [
               {
@@ -222,7 +283,7 @@ Wrote dependencies with `spec.add_dependency` and `spec.add_development_dependen
 
 ### Build
 
-```
+```bash
 gem build practice_terraforming.gemspec
 ```
 
@@ -232,7 +293,7 @@ the above command will generate the `practice_terraforming-X.X.X.gem`
 
 0.1.0 as an example
 
-```
+```bash
 gem install practice_terraforming-0.1.0.gem
 Successfully installed practice_terraforming-0.1.0
 Parsing documentation for practice_terraforming-0.1.0
@@ -243,10 +304,11 @@ Done installing documentation for practice_terraforming after 0 seconds
 
 ### Check
 
-```
+```bash
 practice_terraforming
 Commands:
   practice_terraforming help [COMMAND]  # Describe available commands or one specific command
+  practice_terraforming iamgpa          # Iam Group Policy Attachment
   practice_terraforming iampa           # Iam Policy Attachment
   practice_terraforming iamr            # Iam Role
   practice_terraforming iamrpa          # Iam Role Policy Attachment
