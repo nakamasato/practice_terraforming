@@ -1,0 +1,7 @@
+<% iam_user_policy_attachments.each do |user_policy_attachment| -%>
+resource "aws_iam_user_policy_attachment" "<%= module_name_of(user_policy_attachment) %>" {
+    policy_arn = "<%= user_policy_attachment[:policy_arn] %>"
+    user       = "<%= user_policy_attachment[:user] %>"
+}
+
+<% end -%>

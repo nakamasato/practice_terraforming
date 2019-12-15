@@ -72,6 +72,13 @@ module PracticeTerraforming
 
         it_behaves_like "CLI examples"
       end
+
+      describe "iamupa" do
+        let(:klass)   { PracticeTerraforming::Resource::IAMUserPolicyAttachment }
+        let(:command) { :iamupa }
+
+        it_behaves_like "CLI examples"
+      end
     end
 
     context "flush to stdout" do

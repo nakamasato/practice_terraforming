@@ -2,7 +2,9 @@
 
 # PracticeTerraforming
 
-This is just for practice!
+## Description
+
+This is just for practice! There's not `IAMRolePolicyAttachment`, `IAMUserPolicyAttachment` and `IAMGroupPolicyAttachment` in the original repo. So, I implemented them and also sent pull requests. This repo is used to check before sending those pull requests.
 
 ## Installation
 
@@ -259,3 +261,11 @@ Options:
   [--assume=ASSUME]                              # Role ARN to assume
   [--use-bundled-cert], [--no-use-bundled-cert]  # Use the bundled CA certificate from AWS SDK
 ```
+
+## Table for aws-sdk and terraforming
+
+|terraforming resource|aws-sdk|
+|---|---|
+|IAMRolePolicyAttachment|`list_roles` and `list_attached_role_policies` for all extracted roles |
+|IAMGroupPolicyAttachment|`list_users` and `list_attached_user_policies` for all extracted users|
+|IAMGroupPolicyAttachment|`list_groups` and `list_attached_group_policies` for all extracted groups|
