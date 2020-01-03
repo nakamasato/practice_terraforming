@@ -59,6 +59,13 @@ module PracticeTerraforming
         it_behaves_like "CLI examples"
       end
 
+      describe "iamu" do
+        let(:klass)   { PracticeTerraforming::Resource::IAMUser }
+        let(:command) { :iamu }
+
+        it_behaves_like "CLI examples"
+      end
+
       describe "iampa" do
         let(:klass)   { PracticeTerraforming::Resource::IamPolicyAttachment }
         let(:command) { :iampa }
