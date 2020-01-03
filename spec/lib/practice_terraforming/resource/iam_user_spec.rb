@@ -30,8 +30,22 @@ module PracticeTerraforming
         ]
       end
 
+      let(:tags) do
+        {
+          tags: [
+            {
+              key: "Name",
+              value: "Test"
+            },
+          ]
+        }
+      end
+
       before do
         client.stub_responses(:list_users, users: users)
+        client.stub_responses(:list_user_tags, lambda { |_context|
+                                                 tags
+                                               })
       end
 
       describe ".tf" do
@@ -40,11 +54,17 @@ module PracticeTerraforming
             resource "aws_iam_user" "hoge" {
                 name = "hoge"
                 path = "/"
+                tags = {
+                  "Name" = "Test"
+                }
             }
 
             resource "aws_iam_user" "fuga-piyo" {
                 name = "fuga.piyo"
                 path = "/system/"
+                tags = {
+                  "Name" = "Test"
+                }
             }
 
           EOS
@@ -64,7 +84,10 @@ module PracticeTerraforming
                                                                         "name" => "hoge",
                                                                         "path" => "/",
                                                                         "unique_id" => "ABCDEFGHIJKLMN1234567",
-                                                                        "force_destroy" => "false"
+                                                                        "force_destroy" => "false",
+                                                                        "tags" => {
+                                                                          "Name" => "Test"
+                                                                        }
                                                                       }
                                                                     }
                                                                   },
@@ -78,7 +101,10 @@ module PracticeTerraforming
                                                                         "name" => "fuga.piyo",
                                                                         "path" => "/system/",
                                                                         "unique_id" => "OPQRSTUVWXYZA8901234",
-                                                                        "force_destroy" => "false"
+                                                                        "force_destroy" => "false",
+                                                                        "tags" => {
+                                                                          "Name" => "Test"
+                                                                        }
                                                                       }
                                                                     }
                                                                   }
