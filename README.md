@@ -312,6 +312,7 @@ Commands:
   practice_terraforming iampa           # Iam Policy Attachment
   practice_terraforming iamr            # Iam Role
   practice_terraforming iamrpa          # Iam Role Policy Attachment
+  practice_terraforming iamu            # Iam User
   practice_terraforming iamupa          # Iam User Policy Attachment
   practice_terraforming s3              # S3
 

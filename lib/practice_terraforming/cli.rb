@@ -18,6 +18,10 @@ module PracticeTerraforming
       execute(PracticeTerraforming::Resource::IAMRole, options)
     end
 
+    desc "iamu", "Iam User"
+    def iamu
+      execute(PracticeTerraforming::Resource::IAMUser, options)
+    end
     desc "s3", "S3"
     def s3
       execute(PracticeTerraforming::Resource::S3, options)
