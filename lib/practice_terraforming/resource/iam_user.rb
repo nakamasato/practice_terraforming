@@ -33,7 +33,8 @@ module PracticeTerraforming
             "name" => user.user_name,
             "path" => user.path,
             "unique_id" => user.user_id,
-            "force_destroy" => "false"
+            "force_destroy" => "false",
+            "tags" => iam_tags_of(user).map { |t| [t.key, t.value] }.to_h
           }
           resources["aws_iam_user.#{module_name_of(user)}"] = {
             "type" => "aws_iam_user",
@@ -51,6 +52,10 @@ module PracticeTerraforming
 
       def iam_users
         @client.list_users.map(&:users).flatten
+      end
+
+      def iam_tags_of(user)
+        @client.list_user_tags(user_name: user.user_name).map(&:tags).flatten
       end
 
       def module_name_of(user)
