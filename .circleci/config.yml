@@ -15,10 +15,8 @@ jobs:
           name: setup bundler
           command: |
             sudo gem update --system
-            sudo gem uninstall bundler
-            sudo rm /usr/local/bin/bundle
-            sudo rm /usr/local/bin/bundler
-            sudo gem install bundler
+            sudo gem uninstall -ax bundler
+            sudo gem install bundle
       - run:
           name: install
           command: bundle install --path vendor/bundle
