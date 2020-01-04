@@ -51,6 +51,10 @@ module PracticeTerraforming
         @client.list_roles.map(&:roles).flatten
       end
 
+      def iam_tags_of(role)
+        @client.list_role_tags(role_name: role.role_name).map(&:tags).flatten
+      end
+
       def module_name_of(role)
         normalize_module_name(role.role_name)
       end

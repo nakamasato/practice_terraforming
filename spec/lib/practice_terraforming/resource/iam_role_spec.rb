@@ -43,6 +43,8 @@ module PracticeTerraforming
                 name               = "hoge_role"
                 description        = "hoge_role_description"
                 path               = "/"
+                tags               = {
+                }
                 assume_role_policy = <<POLICY
             {
               "Version": "2008-10-17",
@@ -64,6 +66,8 @@ module PracticeTerraforming
                 name               = "fuga_role"
                 description        = "fuga_role_description"
                 path               = "/system/"
+                tags               = {
+                }
                 assume_role_policy = <<POLICY
             {
               "Version": "2008-10-17",
