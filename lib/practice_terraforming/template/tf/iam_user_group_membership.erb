@@ -1,0 +1,9 @@
+<% user_group_memberships.each do |membership| -%>
+resource "aws_iam_user_group_membership" "<%= membership[:name] %>" {
+    user   = "<%= membership[:user] %>"
+    groups = [
+      "<%= membership[:group] %>"
+    ]
+}
+
+<% end -%>

@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    practice_terraforming (0.1.9)
+    practice_terraforming (0.1.10)
       aws-sdk-iam (~> 1)
       aws-sdk-s3 (~> 1)
       multi_json (~> 1.12.1)
