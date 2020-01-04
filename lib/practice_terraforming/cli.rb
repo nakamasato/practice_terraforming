@@ -47,6 +47,11 @@ module PracticeTerraforming
       execute(PracticeTerraforming::Resource::IAMGroupPolicyAttachment, options)
     end
 
+    desc "iamugm", "Iam User Group Membership"
+    def iamugm
+      execute(PracticeTerraforming::Resource::IAMUserGroupMembership, options)
+    end
+
     private
 
     def configure_aws(options)
