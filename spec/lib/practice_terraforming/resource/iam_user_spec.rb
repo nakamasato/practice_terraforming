@@ -84,10 +84,7 @@ module PracticeTerraforming
                                                                         "name" => "hoge",
                                                                         "path" => "/",
                                                                         "unique_id" => "ABCDEFGHIJKLMN1234567",
-                                                                        "force_destroy" => "false",
-                                                                        "tags" => {
-                                                                          "Name" => "Test"
-                                                                        }
+                                                                        "force_destroy" => "false"
                                                                       }
                                                                     }
                                                                   },
@@ -101,10 +98,7 @@ module PracticeTerraforming
                                                                         "name" => "fuga.piyo",
                                                                         "path" => "/system/",
                                                                         "unique_id" => "OPQRSTUVWXYZA8901234",
-                                                                        "force_destroy" => "false",
-                                                                        "tags" => {
-                                                                          "Name" => "Test"
-                                                                        }
+                                                                        "force_destroy" => "false"
                                                                       }
                                                                     }
                                                                   }
