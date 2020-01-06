@@ -54,6 +54,7 @@ module PracticeTerraforming
             resource "aws_iam_user" "hoge" {
                 name = "hoge"
                 path = "/"
+                force_destroy = true
                 tags = {
                   "Name" = "Test"
                 }
@@ -62,6 +63,7 @@ module PracticeTerraforming
             resource "aws_iam_user" "fuga-piyo" {
                 name = "fuga.piyo"
                 path = "/system/"
+                force_destroy = true
                 tags = {
                   "Name" = "Test"
                 }
@@ -84,7 +86,7 @@ module PracticeTerraforming
                                                                         "name" => "hoge",
                                                                         "path" => "/",
                                                                         "unique_id" => "ABCDEFGHIJKLMN1234567",
-                                                                        "force_destroy" => "false"
+                                                                        "force_destroy" => "true"
                                                                       }
                                                                     }
                                                                   },
@@ -98,7 +100,7 @@ module PracticeTerraforming
                                                                         "name" => "fuga.piyo",
                                                                         "path" => "/system/",
                                                                         "unique_id" => "OPQRSTUVWXYZA8901234",
-                                                                        "force_destroy" => "false"
+                                                                        "force_destroy" => "true"
                                                                       }
                                                                     }
                                                                   }
