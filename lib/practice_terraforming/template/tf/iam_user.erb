@@ -2,6 +2,7 @@
 resource "aws_iam_user" "<%= module_name_of(user) %>" {
     name = "<%= user.user_name %>"
     path = "<%= user.path %>"
+    force_destroy = true
     tags = {
 <% iam_tags_of(user).each do |tag| -%>
       "<%= tag.key%>" = "<%= tag.value %>"

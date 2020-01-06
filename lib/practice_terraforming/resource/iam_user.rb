@@ -33,7 +33,7 @@ module PracticeTerraforming
             "name" => user.user_name,
             "path" => user.path,
             "unique_id" => user.user_id,
-            "force_destroy" => "false"
+            "force_destroy" => "true"
           }
           resources["aws_iam_user.#{module_name_of(user)}"] = {
             "type" => "aws_iam_user",
